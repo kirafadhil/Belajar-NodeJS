@@ -5,5 +5,7 @@
   "main": "app.js",
   "author": "kirafadhil",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "yargs": "^17.6.2"
+  }
 }

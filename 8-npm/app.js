@@ -1,14 +1,36 @@
-// ini adalah destructuring object
-const { tulisPertanyaan, simpanContact } = require("./contacts");
-// kalo menggunakan cara yang dibawah ini pada method dibawah harus mencantumkan objeknya (contacts)
-// const contacts = require('./contacts');
+const yargs = require("yargs");
+const contacts = require('./contacts')
 
-const main = async () => {
-  const nama = await tulisPertanyaan("Masukan nama anda : ");
-  const email = await tulisPertanyaan("Masukan email anda : ");
-  const noHP = await tulisPertanyaan("Masukan no telp anda : ");
+yargs
+.command({
+  command: "add",
+  describe: "Menambahkan contact baru",
+  builder: {
+    nama: {
+      describe: "Nama Lengkap",
+      demandOption: true,
+      type: "string",
+    },
+    email: {
+      describe: "Email",
+      demandOption: false,
+      type: "string",
+    },
+    noHP: {
+      describe: "Nomor Telepon",
+      demandOption: true,
+      type: "string",
+    },
+  },
+  handler(argv){
+    const contact = {
+      nama: argv.nama,
+      email: argv.email,
+      noHP: argv.noHP
+    };
+    console.log(contact);
+    contacts.simpanContact(argv.nama, argv.email, argv.noHP);
+  },
+});
 
-  simpanContact(nama, email, noHP);
-};
-
-main();
+yargs.parse();

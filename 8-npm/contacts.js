@@ -33,7 +33,6 @@ const simpanContact = (nama, email, noHP) => {
   const file = fs.readFileSync("data/contacts.json", "utf-8");
   const contacts = JSON.parse(file);
   contacts.push(contact);
-  console.log(contact);
   fs.writeFileSync("data/contacts.json", JSON.stringify(contacts, null, 2));
   console.log("Terimakasih sudah menginput data!");
   rl.close();

@@ -5,8 +5,6 @@
   "main": "app.js",
   "author": "kirafadhil",
   "license": "MIT",
-  "scripts": {
-    "start": "node app"
-  },
+  "type": "module",
   "dependencies": {}
 }

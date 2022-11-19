@@ -1,0 +1,12 @@
+{
+  "name": "8-npm",
+  "version": "1.0.0",
+  "description": "belajar nodejs",
+  "main": "app.js",
+  "author": "kirafadhil",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {}
+}

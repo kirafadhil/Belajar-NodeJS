@@ -6,6 +6,7 @@
   "author": "kirafadhil",
   "license": "MIT",
   "dependencies": {
+    "validator": "^13.7.0",
     "yargs": "^17.6.2"
   }
 }

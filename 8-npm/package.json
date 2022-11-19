@@ -5,6 +5,5 @@
   "main": "app.js",
   "author": "kirafadhil",
   "license": "MIT",
-  "type": "module",
   "dependencies": {}
 }

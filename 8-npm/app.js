@@ -1,11 +1,14 @@
-// const validator = require('validator');
-import chalk from 'chalk';
+// ini adalah destructuring object
+const { tulisPertanyaan, simpanContact } = require("./contacts");
+// kalo menggunakan cara yang dibawah ini pada method dibawah harus mencantumkan objeknya (contacts)
+// const contacts = require('./contacts');
 
-// console.log(validator.isEmail('fadhil@gmail.c'));
-// console.log(validator.isMobilePhone('082234675','id-ID'));
-// console.log(validator.isNumeric('0822346s75'));
-// console.log(chalk.italic.black.bgBlue('Hello World'));
+const main = async () => {
+  const nama = await tulisPertanyaan("Masukan nama anda : ");
+  const email = await tulisPertanyaan("Masukan email anda : ");
+  const noHP = await tulisPertanyaan("Masukan no telp anda : ");
 
-const pesan = chalk`lorem, {bgBlue.Red yahahah} hayyyu`;
-console.log(pesan);
+  simpanContact(nama, email, noHP);
+};
 
+main();

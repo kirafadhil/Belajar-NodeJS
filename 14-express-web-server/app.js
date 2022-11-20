@@ -14,16 +14,20 @@ app.get("/contact", (req, res) => {
   res.sendFile('./contact.html', {root: __dirname});
 });
 
-app.use('/', (req, res) => {
-  res.status(404);
-  res.send("404");
-  // res.json({
-  //   nama: 'Muhammad Naufal',
-  //   email: 'kira@gmail.com',
-  //   noHP: '0812434354',
-  // });
-  // res.sendFile('./index.html', {root: __dirname});
+app.get('/product/:id', (req, res) => {
+  res.send(`product ID : ${req.params.id} <br> Category ID : ${req.query.category}`);
 });
+
+// app.use('/', (req, res) => {
+//   // res.status(404);
+//   // res.send("404");
+//   // res.json({
+//   //   nama: 'Muhammad Naufal',
+//   //   email: 'kira@gmail.com',
+//   //   noHP: '0812434354',
+//   // });
+//   res.sendFile('./index.html', {root: __dirname});
+// });
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

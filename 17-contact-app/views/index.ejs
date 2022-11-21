@@ -1,0 +1,12 @@
+    <h1>Web Server NodeJS</h1>
+    <% if (mahasiswa.length < 1) { %>
+     <p>Data Mahasiswa masih kosong!</p> 
+    <% } %>
+    <h2>Halo <%= nama %></h2>
+    <h4>Daftar Mahasiswa</h4>
+    <% mahasiswa.forEach(mhs => { %>
+      <ul>
+        <li>Nama : <%= mhs.nama %> </li>
+        <li>Email : <%= mhs.email %> </li>
+      </ul>  
+    <% }) %>

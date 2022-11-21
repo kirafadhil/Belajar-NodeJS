@@ -1,70 +1,55 @@
 const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
 const app = express();
 const port = 3000;
 
+// menggunakan ejs
+app.set("view engine", "ejs");
+app.use(expressLayouts);
+
 app.get("/", (req, res) => {
-  res.sendFile('./index.html', {root: __dirname});
+  const mahasiswa = [
+    {
+      nama: "Naufal Fadhil",
+      email: "fadhil@gmail.com",
+    },
+    {
+      nama: "Rio Fikri",
+      email: "rio@gmail.com",
+    },
+    {
+      nama: "Abdul",
+      email: "abdul@gmail.com",
+    },
+  ];
+  res.render("index", {
+    nama: "Fadhil!",
+    title: "Halaman Home",
+    mahasiswa,
+    layout: "layouts/main-layout",
+  });
 });
 
 app.get("/about", (req, res) => {
-  res.sendFile('./about.html', {root: __dirname});
+  res.render("about", {
+    title: "Halaman About",
+    layout: "layouts/main-layout",
+  });
 });
 
 app.get("/contact", (req, res) => {
-  res.sendFile('./contact.html', {root: __dirname});
+  res.render("contact", {
+    title: "Halaman Contact",
+    layout: "layouts/main-layout",
+  });
 });
 
-app.get('/product/:id', (req, res) => {
-  res.send(`product ID : ${req.params.id} <br> Category ID : ${req.query.category}`);
+app.get("/product/:id", (req, res) => {
+  res.send(
+    `product ID : ${req.params.id} <br> Category ID : ${req.query.category}`
+  );
 });
-
-// app.use('/', (req, res) => {
-//   // res.status(404);
-//   // res.send("404");
-//   // res.json({
-//   //   nama: 'Muhammad Naufal',
-//   //   email: 'kira@gmail.com',
-//   //   noHP: '0812434354',
-//   // });
-//   res.sendFile('./index.html', {root: __dirname});
-// });
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
-// // const express = require('express')
-// const http = require("http")
-// const fs = require("fs")
-// const port = 3000;
-
-// const renderHTML = (path, res) => {
-//   fs.readFile(path, (err, data) => {
-//     if (err) {
-//       res.writeHead(404);
-//       res.write("File not found");
-//     } else {
-//       res.write(data);
-//     }
-//     res.end();
-//   });
-// };
-
-// const server = http
-//   .createServer((req, res) => {
-//     res.writeHead(200, {
-//       "Content-Type": "text/html",
-//     });
-
-//     const url = req.url;
-//     if (url === "/about") {
-//       renderHTML("./about.html", res);
-//     } else if (url === "/contact") {
-//       renderHTML("./contact.html", res);
-//     } else {
-//       renderHTML("./index.html", res);
-//     }
-//   })
-//   .listen(port, () => {
-//     console.log(`Server is listening on port ${port}..`);
-//   });

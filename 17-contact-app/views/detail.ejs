@@ -16,6 +16,11 @@
           <h6 class="card-subtitle mb-1 text-muted"><%= contact.noHP %></h6>
           <p class="card-text"><%= contact.email %></p>
           <a
+            href="/contact/edit/<%= contact.nama %> "
+            class="btn btn-info badge"
+            >Ubah</a
+          >
+          <a
             href="/contact/delete/<%= contact.nama %> "
             class="btn btn-danger badge"
             onclick="return confirm('anda yakin ?');"

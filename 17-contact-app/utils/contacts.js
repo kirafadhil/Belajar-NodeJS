@@ -30,7 +30,7 @@ const findContact = (nama) => {
 
 // menuliskan / menimpa file contacts.son dengan data yang baru
 const saveContacts = (contacts) => {
-  fs.writeFileSync('data/contacts.json', JSON.stringify(contacts,null,4));
+  fs.writeFileSync('data/contacts.json', JSON.stringify(contacts,null,2));
 }
 
 
@@ -41,5 +41,11 @@ const addContact = (contact) => {
   saveContacts(contacts);
 };
 
+// cek nama yang duplikat
+const cekDuplikat = (nama) => {
+  const contacts = loadContact();
+  return contacts.find((contact) => contact.nama === nama);
+};
 
-module.exports = { loadContact, findContact, addContact };
+
+module.exports = { loadContact, findContact, addContact, cekDuplikat };

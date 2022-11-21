@@ -1,6 +1,12 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const {loadContact, findContact, addContact} = require('./utils/contacts');
+const {
+  loadContact,
+  findContact,
+  addContact,
+  cekDuplikat,
+} = require("./utils/contacts");
+const { body, validationResult, check } = require("express-validator");
 const app = express();
 const port = 3000;
 
@@ -12,7 +18,7 @@ app.use(expressLayouts);
 
 // built in middleware
 app.use(express.static("public"));
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   const mahasiswa = [
@@ -55,29 +61,53 @@ app.get("/contact", (req, res) => {
 });
 
 // halaman form tambah data kontak
-app.get('/contact/add', (req,res) => {
-  res.render('add-contact', {
+app.get("/contact/add", (req, res) => {
+  res.render("add-contact", {
     title: "Form Tambah Data Contact",
     layout: "layouts/main-layout",
-  })
+  });
 });
 
 // proses data contact
-app.post('/contact', (req, res) => {
-  addContact(req.body);
-  res.redirect('/contact');
-});
+app.post(
+  "/contact",
+  body("nama").custom((value) => {
+    const duplikat = cekDuplikat(value);
+    if (duplikat) {
+      throw new Error("Nama contact sudah terdaftar!");
+    }
+    return true;
+  }),
+  [
+    check("email", "Email tidak valid!").isEmail(),
+    check("noHP", "No Handphone tidak valid!").isMobilePhone("id-ID"),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // return res.status(400).json({ errors: errors.array() });
+      res.render("add-contact", {
+        title: "Form Tambah Data Contact",
+        layout: "layouts/main-layout",
+        errors: errors.array(),
+      });
+    } else {
+      addContact(req.body);
+      res.redirect("/contact");
+    }
+  }
+);
 
 // halaman detail kontak
-app.get('/contact/:nama', (req, res) => {
-  const contact = findContact((req.params.nama));
+app.get("/contact/:nama", (req, res) => {
+  const contact = findContact(req.params.nama);
 
   res.render("detail", {
     title: "Halaman Detail Contact",
     layout: "layouts/main-layout",
     contact,
   });
-})
+});
 
 app.use((req, res) => {
   res.status(404);

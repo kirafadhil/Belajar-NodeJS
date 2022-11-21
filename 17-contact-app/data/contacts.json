@@ -1,4 +1,17 @@
 [
-    {"nama":"Naufal Fadhil", "noHP":"089134679", "email":"fadhil@gmail.com"},
-    {"nama":"erik", "noHP":"089423734", "email":"erik@gmail.com"}
+    {
+        "nama": "Naufal Fadhil",
+        "noHP": "089134679",
+        "email": "fadhil@gmail.com"
+    },
+    {
+        "nama": "erik",
+        "noHP": "089423734",
+        "email": "erik@gmail.com"
+    },
+    {
+        "nama": "kira fadhil",
+        "email": "kirafadhil@gmail.com",
+        "noHP": "08942789923"
+    }
 ]

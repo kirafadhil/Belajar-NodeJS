@@ -1,0 +1,11 @@
+{
+  "name": "14-express-web-server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "kirafadhil",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  }
+}

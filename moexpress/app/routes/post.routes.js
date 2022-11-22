@@ -4,6 +4,7 @@ module.exports = (app) => {
 
     router.get('/', posts.findAll)
     router.post('/', posts.create)
+    router.get('/:id', posts.findOne)
 
     app.use('/api/posts', router)
 }

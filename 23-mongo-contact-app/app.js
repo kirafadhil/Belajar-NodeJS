@@ -1,5 +1,9 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+
+const { body, validationResult, check } = require("express-validator");
+const methodOverride = require("method-override");
+
 const { db } = require("./model/contact");
 
 // connect db.js
@@ -13,6 +17,9 @@ const flash = require("connect-flash");
 
 const app = express();
 const port = 3000;
+
+// setup method override
+app.use(methodOverride("_method"));
 
 // Setup EJS
 app.set("view engine", "ejs");
@@ -82,16 +89,65 @@ app.get("/contact", async (req, res) => {
   });
 });
 
+// halaman form tambah data kontak
+app.get("/contact/add", (req, res) => {
+  res.render("add-contact", {
+    title: "Form Tambah Data Contact",
+    layout: "layouts/main-layout",
+  });
+});
+
+// proses tambah data contact
+app.post(
+  "/contact",
+  body("nama").custom(async (value) => {
+    const duplikat = await Contact.findOne({ nama: value });
+    if (duplikat) {
+      throw new Error("Nama contact sudah terdaftar!");
+    }
+    return true;
+  }),
+  [
+    check("email", "Email tidak valid!").isEmail(),
+    check("noHP", "No Handphone tidak valid!").isMobilePhone("id-ID"),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render("add-contact", {
+        title: "Form Tambah Data Contact",
+        layout: "layouts/main-layout",
+        errors: errors.array(),
+      });
+    } else {
+      Contact.insertMany(req.body, (error, result) => {
+        // kirimkan flash message
+        req.flash("msg", "Data Contact telah berhasil ditambahkan!");
+        res.redirect("/contact");
+      });
+    }
+  }
+);
+
+// proses delete contact
+app.delete("/contact", (req, res) => {
+  Contact.deleteOne({ nama: req.body.nama }).then((result) => {
+    // kirimkan flash message
+    req.flash("msg", "Data Contact telah berhasil dihapus!");
+    res.redirect("/contact");
+  });
+});
+
 // halaman detail kontak
 app.get("/contact/:nama", async (req, res) => {
-    const contact = await Contact.findOne({nama: req.params.nama});
-    
-    res.render("detail", {
-      title: "Halaman Detail Contact",
-      layout: "layouts/main-layout",
-      contact,
-    });
+  const contact = await Contact.findOne({ nama: req.params.nama });
+
+  res.render("detail", {
+    title: "Halaman Detail Contact",
+    layout: "layouts/main-layout",
+    contact,
   });
+});
 
 app.listen(port, () => {
   console.log(`Mongo Contact APP | Listening at http://localhost:${port}`);

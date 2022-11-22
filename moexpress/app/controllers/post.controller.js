@@ -48,21 +48,43 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const id = req.params.id
+  const id = req.params.id;
 
-    Post.findByIdAndUpdate(id, req.body)
+  Post.findByIdAndUpdate(id, req.body)
     .then((result) => {
-        if(!result){
-            res.status(404).send({
-                message: "Post not found"
-            })
-        }
-        res.send({
-            message: "Post was updated"
-        })
-    }).catch((err) => {
-        res.status(500).send({
-            message: err.message || "Something error while update post.",
-          });
+      if (!result) {
+        res.status(404).send({
+          message: "Post not found",
+        });
+      }
+      res.send({
+        message: "Post was updated",
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Something error while update post.",
+      });
     });
-}
+};
+
+exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  Post.findByIdAndRemove(id)
+    .then((result) => {
+      if (!result) {
+        res.status(404).send({
+          message: "Post not found",
+        });
+      }
+      res.send({
+        message: "Post was deleted",
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Something error while delete post.",
+      });
+    });
+};

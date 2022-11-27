@@ -1,6 +1,8 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
-
+const {
+    loadBooks
+} = require ('./utils/books');
 const port = 3000;
 
 const app = express();
@@ -15,6 +17,23 @@ app.get('/', (req,res) => {
         title: 'Halaman Utama',
         layout: 'layouts/main-layout',
     });
+})
+
+app.get('/book', (req,res) => {
+    const books = loadBooks();
+
+    res.render('book', {
+        title: 'Daftar Buku',
+        layout: 'layouts/main-layout',
+        books,
+    })
+})
+
+app.get('/book/add', (req,res) => {
+    res.render('add-book', {
+        title: 'Form Tambah Buku',
+        layout: 'layouts/main-layout'
+    })
 })
 
 app.listen(port, () => {
